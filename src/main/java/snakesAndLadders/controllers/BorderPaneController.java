@@ -10,7 +10,6 @@ import javafx.scene.layout.GridPane;
 
 public class BorderPaneController {
 
-    public static String colour;
     @FXML
     public CheckBox purpleCheckBox;
     public CheckBox blueCheckBox;
@@ -35,6 +34,7 @@ public class BorderPaneController {
     void initialize(){}
 
     public void setActionEvent(){
+        String colour;
         if(purpleCheckBox.isSelected() && nameBox.getText() != null){
             colour = "purple";
             playersList.setText(nameBox.getText() + " is " + colour);
@@ -47,7 +47,6 @@ public class BorderPaneController {
             setPawn(purplePawn, 1, 9);
             setPawn(greenPawn, 1, 9);
             button.setVisible(true);
-
         } else if (blueCheckBox.isSelected() && nameBox.getText() != null){
             colour = "blue";
             playersList.setText(nameBox.getText() + " is " + colour);
@@ -87,20 +86,20 @@ public class BorderPaneController {
         }
     }
 
-    private void setPawn(ImageView pawn, int column, int row) {
-        if (gridPane.getChildrenUnmodifiable().contains(pawn)) {
+    private void setPawn(ImageView pawn, int column, int row){
+        if(gridPane.getChildrenUnmodifiable().contains(pawn)){
             gridPane.getChildren().remove(pawn);
         }
         gridPane.add(pawn, column, row);
     }
 
-    public static double createRandomNumber(double min, double max) {
-        return (Math.random() * ((max - min) + 1)) + min;
+    private static double createRandomNumber(){
+        return (Math.random() * (((double) 6 - (double) 1) + 1)) + (double) 1;
     }
 
     public Label diceRolling(){
-        if(button.isPressed()) {
-            result.setText(String.valueOf((int)createRandomNumber(1, 6)));
+        if(button.isPressed()){
+            result.setText(String.valueOf((int)createRandomNumber()));
             dice.setVisible(true);
             doMove.setText("Move your pawn!");
             doMove.setVisible(true);
@@ -112,15 +111,14 @@ public class BorderPaneController {
     }
 
     public Label computersDiceRolling(){
-
-            result.setText(String.valueOf((int)createRandomNumber(1, 6)));
+            result.setText(String.valueOf((int)createRandomNumber()));
             doMove.setVisible(true);
             go.setVisible(false);
             button.setVisible(true);
-        changePositionGreen();
-
+            changePositionGreen();
         return result;
     }
+
     public void hide(){
         go.setVisible(false);
         button.setVisible(false);
@@ -131,41 +129,28 @@ public class BorderPaneController {
     }
 
     public void moveThePane(){
-
         int move = Integer.parseInt(result.getText());
 
         if(GridPane.getRowIndex(purplePawn) == 0 && GridPane.getColumnIndex(purplePawn)-move<1){
-
-        } else
-
-        if(GridPane.getRowIndex(purplePawn)%2 == 0){ // jeśli wiersz jest parzysty
+        }
+        else if(GridPane.getRowIndex(purplePawn)%2 == 0){           // jeśli wiersz jest parzysty
                 if(GridPane.getColumnIndex(purplePawn) - move < 1){ // jeśli długość kolumny - wynik rzutu < 1
-
                 int column = move - GridPane.getColumnIndex(purplePawn)+1;
                 int row = GridPane.getRowIndex(purplePawn)-1;
-
                 setPawn(purplePawn, column, row);
-
-                // jeśli długość kolumny - wynik rzutu > 1
-            } else {
+            } else {                                                // jeśli długość kolumny - wynik rzutu > 1
                 int column = GridPane.getColumnIndex(purplePawn) - move;
                 int row = GridPane.getRowIndex(purplePawn);
                 setPawn(purplePawn, column, row);
             }
-        }
-        // jeśli wiersz jest nieparzysty
-        else{
-            if(GridPane.getColumnIndex(purplePawn) + move > 10){ // jeśli dlugość kolumny + wynik rzutu > 10
+        } else {                                                    // jeśli wiersz jest nieparzysty
+            if(GridPane.getColumnIndex(purplePawn) + move > 10){    // jeśli dlugość kolumny + wynik rzutu > 10
                 int x = 10 - GridPane.getColumnIndex(purplePawn);
                 int y = move - x - 1;
-
                 int column = 10 - y;
                 int row = GridPane.getRowIndex(purplePawn)-1;
-
                 setPawn(purplePawn, column, row);
-
-                // jeśli długość kolumny + wynik rzutu < 10
-            } else {
+            } else {                                                // jeśli długość kolumny + wynik rzutu < 10
                 int column = GridPane.getColumnIndex(purplePawn) + move;
                 int row = GridPane.getRowIndex(purplePawn);
                 setPawn(purplePawn, column, row);
@@ -178,41 +163,29 @@ public class BorderPaneController {
         int move = Integer.parseInt(result.getText());
 
          if(GridPane.getRowIndex(greenPawn) == 0 && GridPane.getColumnIndex(greenPawn)-move<1){
-
-         } else
-        if(GridPane.getRowIndex(greenPawn)%2 == 0){ // jeśli wiersz jest parzysty
-             if(GridPane.getColumnIndex(greenPawn) - move < 1){ // jeśli długość kolumny - wynik rzutu < 1
-
+         } else if(GridPane.getRowIndex(greenPawn)%2 == 0){                 // jeśli wiersz jest parzysty
+             if(GridPane.getColumnIndex(greenPawn) - move < 1){             // jeśli długość kolumny - wynik rzutu < 1
                 int column = move - GridPane.getColumnIndex(greenPawn)+1;
                 int row = GridPane.getRowIndex(greenPawn)-1;
-
                 setPawn(greenPawn, column, row);
-
-                // jeśli długość kolumny - wynik rzutu > 1
-            } else {
+            } else {                                                        // jeśli długość kolumny - wynik rzutu > 1
                 int column = GridPane.getColumnIndex(greenPawn) - move;
                 int row = GridPane.getRowIndex(greenPawn);
                 setPawn(greenPawn, column, row);
             }
-        }
-        // jeśli wiersz jest nieparzysty (dodajemy wynik rzutu)
-        else{
-            if(GridPane.getColumnIndex(greenPawn) + move > 10){ // jeśli dlugość kolumny + wynik rzutu > 10
+        } else {                                                            // jeśli wiersz jest nieparzysty
+            if(GridPane.getColumnIndex(greenPawn) + move > 10){             // jeśli dlugość kolumny + wynik rzutu > 10
                 int x = 10 - GridPane.getColumnIndex(greenPawn);
                 int y = move - x - 1;
-
                 int column = 10 - y;
                 int row = GridPane.getRowIndex(greenPawn)-1;
-
                 setPawn(greenPawn, column, row);
-
-                // jeśli długość kolumny + wynik rzutu < 10
-            } else {
+            } else {                                                        // jeśli długość kolumny + wynik rzutu < 10
                 int column = GridPane.getColumnIndex(greenPawn) + move;
                 int row = GridPane.getRowIndex(greenPawn);
                 setPawn(greenPawn, column, row);
             }
-    }
+         }
     }
 
     // zachowanie pól specjalnych
@@ -224,7 +197,7 @@ public class BorderPaneController {
             setPawn(purplePawn, 4, 8);
         } else if (GridPane.getColumnIndex(purplePawn) == 10 && GridPane.getRowIndex(purplePawn) == 7){
             setPawn(purplePawn, 7, 7);
-        } else if(GridPane.getColumnIndex(purplePawn) == 7 && GridPane.getRowIndex(purplePawn) == 0) {
+        } else if(GridPane.getColumnIndex(purplePawn) == 7 && GridPane.getRowIndex(purplePawn) == 0){
             setPawn(purplePawn, 10, 2);
         } else  if(GridPane.getColumnIndex(purplePawn) == 3 && GridPane.getRowIndex(purplePawn) == 0){
             setPawn(purplePawn, 4, 4);
